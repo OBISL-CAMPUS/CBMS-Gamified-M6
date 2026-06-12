@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OBISL Campus | CBMS-M6: Entrepreneurship & Innovation Practicum</title>
+    
+    <!-- Google Fonts for premium Latin and Sinhala typography rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Sinhala:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- MathJax Configuration Script supporting inline single dollars -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            startup: {
+                ready: () => {
+                    MathJax.startup.defaultReady();
+                    MathJax.typesetPromise();
+                }
+            }
+        };
+    </script>
+    <!-- MathJax CDN for premium mathematical and scientific typesetting of economic formulas -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        /* Modern CSS Custom Properties & System Tokens */
+        :root {
+            --bg-dark: #050811;
+            --bg-card: #0c111d;
+            --border-color: #1e293b;
+            --accent-gold: #cca43b;
+            --accent-gold-glow: rgba(204, 164, 59, 0.4);
+            --accent-cyan: #06b6d4;
+            --accent-cyan-glow: rgba(6, 182, 212, 0.4);
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-green: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.3);
+            --danger-red: #ef4444;
+            --font-main: 'Inter', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        /* Strict Full Viewport Setup & Mobile Touch Lockouts */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* CRITICAL MOBILITY FIX: Allow text editing in forms and interactive default details toggle behavior */
+        input, select, textarea {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+
+        /* WEBKIT SELECTION OVERRIDE: Prevent native browser tap silencers from blocking summary expansion on iOS devices */
+        details, summary, .expander-trigger, .expander-header-layout, .expander-label-text, .expander-icon {
+            user-select: auto !important;
+            -webkit-user-select: auto !important;
+            cursor: pointer;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+            font-family: var(--font-main);
+            color: var(--text-light);
+        }
+
+        /* Main Screen Division Layout */
+        .app-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 1. Header (6vh) */
+        .app-header {
+            height: 6vh;
+            background: linear-gradient(90deg, #0e1424 0%, #050811 100%);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 50;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand .logo-orb {
+            width: 10px;
+            height: 10px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-gold-glow);
+            flex-shrink: 0;
+        }
+
+        .header-brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header-brand h1 {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            line-height: 1.1;
+        }
+
+        .header-brand h1 span {
+            color: var(--accent-gold);
+        }
+
+        .header-lesson-code {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 1px;
+            letter-spacing: 0.02em;
+        }
+
+        .lang-toggle {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            padding: 4px 10px;
+            display: flex;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .lang-toggle span {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            transition: color 0.2s ease;
+        }
+
+        .lang-toggle span.active {
+            color: var(--accent-cyan);
+            text-shadow: 0 0 6px var(--accent-cyan-glow);
+        }
+
+        /* 2. Slide Navigation Bar (5vh) */
+        .step-navbar {
+            height: 5vh;
+            background: #0d1220;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+            z-index: 40;
+        }
+
+        .nav-tab {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-family: var(--font-main);
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 4px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            border-right: 1px solid rgba(30, 41, 59, 0.3);
+            padding: 0 2px;
+        }
+
+        .nav-tab:last-child {
+            border-right: none;
+        }
+
+        .nav-tab.active {
+            color: var(--text-light);
+            background: rgba(204, 164, 59, 0.05);
+        }
+
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gold);
+            box-shadow: 0 -2px 10px var(--accent-gold-glow);
+        }
+
+        .nav-tab.completed::before {
+            content: '✓';
+            color: var(--success-green);
+            font-weight: 900;
+            margin-right: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* 3. Top Viewport HTML5 Canvas Simulation (38vh) */
+        .canvas-viewport {
+            height: 38vh;
+            width: 100%;
+            background: radial-gradient(circle at 50% 50%, #0e1424 0%, #050811 100%);
+            position: relative;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        #appCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .canvas-tip {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(9, 13, 22, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.04em;
+            pointer-events: none;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Floating Alert Banners */
+        .toast-banner {
+            position: absolute;
+            top: 8vh;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(12, 17, 29, 0.95);
+            border: 1px solid var(--accent-gold);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px var(--accent-gold-glow);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .toast-banner.active {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 4. Bottom Viewport Scroll Container & Slides (45vh) */
+        .cards-viewport {
+            height: 45vh;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .cards-wrapper {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* FIXED SCROLL MECHANICS: Switched to flex-start + auto margins to allow natural expanding height */
+        .step-card {
+            width: 25%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+
+        .step-card::-webkit-scrollbar {
+            width: 4px;
+        }
+        .step-card::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
+        }
+
+        .card-header {
+            margin-bottom: 2px;
+        }
+
+        .card-badge {
+            background: rgba(204, 164, 59, 0.12);
+            color: var(--accent-gold);
+            border: 1px solid rgba(204, 164, 59, 0.3);
+            padding: 2px 6px;
+            font-size: 0.62rem;
+            font-weight: 700;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 0.78rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        /* Action Panel controls */
+        .card-action-box {
+            background: rgba(30, 41, 59, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+
+        /* Slider Controls inside cards for calibration tasks */
+        .slider-group {
+            margin-bottom: 8px;
+        }
+        .slider-group:last-child {
+            margin-bottom: 0;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+        .slider-label span.value {
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+        .app-slider {
+            width: 100%;
+            height: 5px;
+            background: #1e293b;
+            border-radius: 9999px;
+            outline: none;
+            -webkit-appearance: none;
+            accent-color: var(--accent-cyan);
+        }
+        .app-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            cursor: pointer;
+            box-shadow: 0 0 6px var(--accent-cyan-glow);
+            transition: transform 0.1s;
+        }
+        .app-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+
+        /* FIXED DETAILS ACCORDION STYLE */
+        .knowledge-expander {
+            border: 1px solid var(--border-color);
+            background: rgba(12, 17, 29, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Summary must behave as block or list-item so WebKit does not silence clicks */
+        .expander-trigger {
+            display: block;
+            padding: 8px 12px;
+            background: rgba(204, 164, 59, 0.04);
+            cursor: pointer;
+            list-style: none; /* Removes block bullet */
+        }
+        .expander-trigger::-webkit-details-marker {
+            display: none; /* Removes Safari bullet */
+        }
+
+        /* Inner Layout container is flex styled to maintain gorgeous visual properties */
+        .expander-header-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .expander-label-text {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .expander-icon {
+            font-size: 0.55rem;
+            color: var(--accent-gold);
+            transition: transform 0.25s ease;
+            display: inline-block;
+        }
+
+        /* Rotates nested icon cleanly on detail open attribute toggle */
+        .knowledge-expander[open] .expander-icon {
+            transform: rotate(180deg);
+        }
+
+        .expander-content {
+            padding: 10px 12px;
+            font-size: 0.72rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            background: #080c14;
+        }
+
+        .expander-content strong {
+            color: var(--text-light);
+        }
+
+        .expander-content code {
+            font-family: monospace;
+            background: #1e293b;
+            padding: 1px 3px;
+            border-radius: 3px;
+            color: var(--accent-cyan);
+        }
+
+        /* Navigation Buttons at bottom of cards (using margin-top: auto for sticky mechanics) */
+        .button-bar {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 6px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a88126 100%);
+            border: none;
+            color: #050811;
+            padding: 10px;
+            font-family: var(--font-main);
+            font-size: 0.78rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(204, 164, 59, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            background: #1e293b;
+            color: #475569;
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 12px;
+            font-family: var(--font-main);
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(30, 41, 59, 0.3);
+            color: var(--text-light);
+        }
+
+        /* Step Tasks Active Indicator */
+        .btn-task-trigger {
+            background: rgba(6, 182, 212, 0.08);
+            border: 1px dashed var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .btn-task-trigger:hover {
+            background: rgba(6, 182, 212, 0.15);
+            box-shadow: 0 0 8px var(--accent-cyan-glow);
+        }
+        .btn-task-trigger.completed {
+            border-color: var(--success-green);
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--success-green);
+            pointer-events: none;
+        }
+
+        /* 5. Sticky Intellectual Property Footer (6vh) */
+        .app-footer {
+            height: 6vh;
+            background: #02040a;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 0 16px;
+            z-index: 50;
+            letter-spacing: 0.02em;
+        }
+
+        .app-footer span {
+            color: var(--accent-gold);
+            margin-left: 4px;
+        }
+
+        /* 6. Full-Screen Certification Badge Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(2, 4, 10, 0.94);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            backdrop-filter: blur(6px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .certificate-card {
+            width: 100%;
+            max-width: 440px;
+            background: linear-gradient(135deg, #0e1424 0%, #050811 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 22px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8), 0 0 20px var(--accent-gold-glow);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        /* Frame borders for certificate aesthetic */
+        .certificate-card::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 1px solid rgba(204, 164, 59, 0.25);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .cert-seal {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 12px auto;
+            background: radial-gradient(circle, #fcd34d 0%, var(--accent-gold) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 12px var(--accent-gold-glow);
+            border: 2px dashed #02040a;
+            animation: pulse-gold 3.5s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .cert-seal svg {
+            width: 32px;
+            height: 32px;
+            fill: #050811;
+        }
+
+        .cert-campus {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .cert-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .cert-statement {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            line-height: 1.45;
+        }
+
+        .cert-input-box {
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cert-input-box label {
+            display: block;
+            font-size: 0.62rem;
+            color: var(--accent-cyan);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* FIXED PREMIUM CALLIGRAPHY SLOT DESIGN */
+        .cert-name-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--accent-gold);
+            color: var(--text-light);
+            font-family: var(--font-main);
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 6px 0;
+            border-radius: 0;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+            letter-spacing: 0.03em;
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+
+        .cert-name-input:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        .cert-signature-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 10px;
+        }
+
+        .cert-sign {
+            text-align: center;
+            flex: 1;
+            z-index: 5;
+        }
+
+        .cert-sign-name {
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 1.05rem;
+            color: var(--accent-gold);
+            font-style: italic;
+        }
+
+        .cert-sign-title {
+            font-size: 0.52rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 2px;
+        }
+
+        .modal-close-btn {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a88126 100%);
+            border: none;
+            color: #050811;
+            padding: 8px 14px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 16px;
+            text-transform: uppercase;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- 1. Header (6vh) -->
+        <header class="app-header">
+            <div class="header-brand">
+                <div class="logo-orb"></div>
+                <div class="header-brand-text">
+                    <h1 id="brandText">OBISL <span>Gamified Learning</span></h1>
+                    <span class="header-lesson-code" id="headerLesson">CBMS-M6: Entrepreneurship & Innovation</span>
+                </div>
+            </div>
+            <div class="lang-toggle" onclick="toggleLanguage()">
+                <span id="langEng" class="active">ENG</span>
+                <span style="color: var(--border-color)">|</span>
+                <span id="langSin">සිංහල</span>
+            </div>
+        </header>
+
+        <!-- 2. Dynamic Slide Navigation Bar (5vh) -->
+        <nav class="step-navbar">
+            <button class="nav-tab active" id="tab0" onclick="navigateToStep(0)">
+                <span id="tab0-txt">Mindset</span>
+            </button>
+            <button class="nav-tab" id="tab1" onclick="navigateToStep(1)">
+                <span id="tab1-txt">Feasibility</span>
+            </button>
+            <button class="nav-tab" id="tab2" onclick="navigateToStep(2)">
+                <span id="tab2-txt">Lean Loop</span>
+            </button>
+            <button class="nav-tab" id="tab3" onclick="navigateToStep(3)">
+                <span id="tab3-txt">Break-Even</span>
+            </button>
+        </nav>
+
+        <!-- 3. Top Viewport HTML5 Canvas Simulation (38vh) -->
+        <div class="canvas-viewport" id="canvasContainer">
+            <div class="canvas-tip" id="canvasTooltip">Interactive Simulation Panel</div>
+            <canvas id="appCanvas"></canvas>
+        </div>
+
+        <!-- Notification Banner / Toast Alerts -->
+        <div class="toast-banner" id="toastMessage">Verification Success!</div>
+
+        <!-- 4. Bottom Viewport Scroll Container Housing Slides (45vh) -->
+        <div class="cards-viewport">
+            <div class="cards-wrapper" id="cardsWrapper">
+                
+                <!-- CARD 1: THEME: Mindset & Schumpeterian Destruction -->
+                <div class="step-card" id="card0">
+                    <div class="card-header">
+                        <div class="card-badge" id="c1-badge">Step 1 of 4</div>
+                        <h2 class="card-title" id="c1-title">Effectual vs Causal Mindset</h2>
+                        <p class="card-desc" id="c1-desc">
+                            Sort strategic behaviors into their correct cognitive vessels. Drag each circular node to either <strong>Effectuation</strong> (Means-driven) or <strong>Causal Reasoning</strong> (Goal-driven predictions).
+                        </p>
+                    </div>
+
+                    <div class="card-action-box">
+                        <button class="btn-task-trigger" id="btnTask1" onclick="resetActivity(0)">
+                            Touch to Reset Activity
+                        </button>
+                    </div>
+
+                    <details class="knowledge-expander">
+                        <summary class="expander-trigger" id="c1-expander-title">
+                            <div class="expander-header-layout">
+                                <span class="expander-label-text" id="c1-exp-lbl">Deep-Dive Concept Explainer</span>
+                                <span class="expander-icon">▼</span>
+                            </div>
+                        </summary>
+                        <div class="expander-content" id="c1-expander-body">
+                            <strong>Schumpeterian Creative Destruction (නිර්මාණාත්මක විනාශය):</strong> Entrepreneurs act as economic disruptors, introducing new combinations that break market equilibria.<br><br>
+                            <strong>Effectuation Framework (කාරකත්ව ප්‍රවේශය):</strong> Conceptualized by Saras Sarasvathy. Entrepreneurs begin with current means: <em>Who I am</em>, <em>What I know</em>, and <em>Whom I know</em> (Bird-in-Hand principle), adapting goals dynamically through stakeholder feedback.
+                        </div>
+                    </details>
+
+                    <div class="button-bar">
+                        <button class="btn-primary" style="margin-left:auto;" id="c1-btn-next" onclick="navigateToStep(1)">
+                            Next Step →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 2: THEME: Tri-Party Feasibility Matrix -->
+                <div class="step-card" id="card1">
+                    <div class="card-header">
+                        <div class="card-badge" id="c2-badge">Step 2 of 4</div>
+                        <h2 class="card-title" id="c2-title">Tri-Party Feasibility Calibrator</h2>
+                        <p class="card-desc" id="c2-desc">
+                            Calibrate Product demand, Industry attractiveness, and Financial readiness. Achieve 70% overall viability across all three dimensions to solidify structural resilience.
+                        </p>
+                    </div>
+
+                    <div class="card-action-box">
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-slide1">Product Desirability</span>
+                                <span class="value" id="val-slide1">50%</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slideProduct" min="0" max="100" value="50" oninput="handleSliderInput()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-slide2">Industry Attractiveness</span>
+                                <span class="value" id="val-slide2">50%</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slideIndustry" min="0" max="100" value="50" oninput="handleSliderInput()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-slide3">Financial Feasibility</span>
+                                <span class="value" id="val-slide3">50%</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slideFinance" min="0" max="100" value="50" oninput="handleSliderInput()">
+                        </div>
+                    </div>
+
+                    <details class="knowledge-expander">
+                        <summary class="expander-trigger" id="c2-expander-title">
+                            <div class="expander-header-layout">
+                                <span class="expander-label-text" id="c2-exp-lbl">Deep-Dive Concept Explainer</span>
+                                <span class="expander-icon">▼</span>
+                            </div>
+                        </summary>
+                        <div class="expander-content" id="c2-expander-body">
+                            <strong>The Tri-Party Feasibility Framework:</strong> Validates venture feasibility in parallel tracks:<br>
+                            1. <strong>Product/Service Feasibility (P):</strong> Tests desirability and technical deliverability.<br>
+                            2. <strong>Industry/Market Feasibility (I):</strong> Investigates structural attractiveness (using Porter's Five Forces).<br>
+                            3. <strong>Organizational/Financial Feasibility (F):</strong> Tests human capital compatibility and foundational unit economics.<br><br>
+                            Let the composite viability score be calculated as:
+                            $$\text{Viability Score (ශක්‍යතා අගය)} = \frac{P + I + F}{3}$$
+                            To secure feasibility verification, this index must satisfy $\ge 70\%$.
+                        </div>
+                    </details>
+
+                    <div class="button-bar">
+                        <button class="btn-secondary" onclick="navigateToStep(0)">← Back</button>
+                        <button class="btn-primary" style="margin-left:auto;" id="c2-btn-next" onclick="navigateToStep(2)">
+                            Next Step →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 3: THEME: Lean Startup Feedback Loop -->
+                <div class="step-card" id="card2">
+                    <div class="card-header">
+                        <div class="card-badge" id="c3-badge">Step 3 of 4</div>
+                        <h2 class="card-title" id="c3-title">The Agile Learning Cycle</h2>
+                        <p class="card-desc" id="c3-desc">
+                            Drag and lock the core artifacts of the Lean Feedback loop into the chronologically correct socket: Build (MVP), Measure (Data & Metrics), or Learn (Pivot or Persevere decision).
+                        </p>
+                    </div>
+
+                    <div class="card-action-box">
+                        <button class="btn-task-trigger" id="btnTask3" onclick="resetActivity(2)">
+                            Touch to Reset Activity
+                        </button>
+                    </div>
+
+                    <details class="knowledge-expander">
+                        <summary class="expander-trigger" id="c3-expander-title">
+                            <div class="expander-header-layout">
+                                <span class="expander-label-text" id="c3-exp-lbl">Deep-Dive Concept Explainer</span>
+                                <span class="expander-icon">▼</span>
+                            </div>
+                        </summary>
+                        <div class="expander-content" id="c3-expander-body">
+                            <strong>The Lean Startup Cycle (Eric Ries):</strong> A modern framework that minimizes market cycle times by organizing actions around <strong>Build-Measure-Learn</strong> loops:<br>
+                            - <strong>Build:</strong> Develop a <em>Minimum Viable Product</em> (MVP) with minimal resources.<br>
+                            - <strong>Measure:</strong> Gather customer behaviors and test structural hypotheses using actionable data metrics.<br>
+                            - <strong>Learn:</strong> Accumulate <em>validated learning</em> to decide whether to <strong>Pivot</strong> (fundamentally reorient) or <strong>Persevere</strong>.
+                        </div>
+                    </details>
+
+                    <div class="button-bar">
+                        <button class="btn-secondary" onclick="navigateToStep(1)">← Back</button>
+                        <button class="btn-primary" style="margin-left:auto;" id="c3-btn-next" onclick="navigateToStep(3)">
+                            Next Step →
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CARD 4: THEME: Break-Even Equilibrium Balance -->
+                <div class="step-card" id="card3">
+                    <div class="card-header">
+                        <div class="card-badge" id="c4-badge">Step 4 of 4</div>
+                        <h2 class="card-title" id="c4-title">Unit Economics Balance Scale</h2>
+                        <p class="card-desc" id="c4-desc">
+                            Perform unit economic mapping. Set Total Fixed Costs (TFC), Price (P), and Unit Variable Cost (VCU). Then, calibrate Quantity (Q) until Total Revenue balances perfectly with Total Costs!
+                        </p>
+                    </div>
+
+                    <div class="card-action-box">
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-bep-tfc">Fixed Costs (TFC)</span>
+                                <span class="value" id="val-bep-tfc">$2,000</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slideTfc" min="1000" max="4000" step="500" value="2000" oninput="handleBepInputs()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-bep-price">Price Per Unit (P)</span>
+                                <span class="value" id="val-bep-price">$100</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slidePrice" min="60" max="200" step="10" value="100" oninput="handleBepInputs()">
+                        </div>
+                        <div class="slider-group">
+                            <div class="slider-label">
+                                <span id="lbl-bep-vcu">Unit Variable Cost (VCU)</span>
+                                <span class="value" id="val-bep-vcu">$50</span>
+                            </div>
+                            <input type="range" class="app-slider" id="slideVcu" min="20" max="50" step="5" value="50" oninput="handleBepInputs()">
+                        </div>
+                        <div class="slider-group" style="border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px;">
+                            <div class="slider-label">
+                                <strong id="lbl-bep-q">Sales Quantity (Q)</strong>
+                                <strong class="value" style="color:var(--accent-gold);" id="val-bep-q">0 Units</strong>
+                            </div>
+                            <input type="range" class="app-slider" id="slideQ" min="0" max="100" step="1" value="0" oninput="handleBepInputs()">
+                        </div>
+                    </div>
+
+                    <details class="knowledge-expander">
+                        <summary class="expander-trigger" id="c4-expander-title">
+                            <div class="expander-header-layout">
+                                <span class="expander-label-text" id="c4-exp-lbl">Deep-Dive Concept Explainer</span>
+                                <span class="expander-icon">▼</span>
+                            </div>
+                        </summary>
+                        <div class="expander-content" id="c4-expander-body">
+                            <strong>The Break-Even Point (BEP) Formula:</strong><br>
+                            $$BEP_{\text{Units}} = \frac{TFC}{P - VCU}$$<br>
+                            Where $TFC$ represents Total Fixed Costs, $P$ represents Unit Price, and $VCU$ represents Variable Cost per unit. The denominator $(P - VCU)$ is the <strong>Unit Contribution Margin</strong> (දායකත්ව ආන්තිකය) which offsets Fixed Costs until the equilibrium profit of zero is achieved.
+                        </div>
+                    </details>
+
+                    <div class="button-bar">
+                        <button class="btn-secondary" onclick="navigateToStep(2)">← Back</button>
+                        <button class="btn-primary" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; box-shadow: 0 4px 12px var(--success-glow)" id="btnClaimBadge" onclick="showBadgeModal()" disabled>
+                            Claim OBISL Badge ✓
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 5. Sticky Intellectual Property Footer (6vh) -->
+        <footer class="app-footer">
+            <div id="footerText">
+                OBISL Campus | Concept by Michael Ranuka Gamage | <span>CBMS - Module 6</span>
+            </div>
+        </footer>
+
+        <!-- 6. Full-Screen Certification Badge Modal -->
+        <div class="modal-overlay" id="badgeModal">
+            <div class="certificate-card">
+                <div class="cert-seal">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M12,6A6,6 0 0,1 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6M12,8A4,4 0 0,0 8,12A4,4 0 0,0 12,16A4,4 0 0,0 16,12A4,4 0 0,0 12,8Z"/>
+                    </svg>
+                </div>
+                <div class="cert-campus">OBISL Campus</div>
+                <h3 class="cert-title" id="certHeadline">Master Certificate of Excellence</h3>
+                <p class="cert-statement" id="certStatement">
+                    This certifies completion of intensive coursework in Module 6: Entrepreneurship & Innovation, establishing theoretical competence in Effectuation, Feasibility, Agile Loops, and Unit Economics.
+                </p>
+                
+                <div class="cert-input-box">
+                    <label for="studentName" id="lbl-cert-name">Enter Student Name:</label>
+                    <input type="text" class="cert-name-input" id="studentName" value="Master Scholar" placeholder="Enter name...">
+                </div>
+
+                <div class="cert-signature-area">
+                    <div class="cert-sign">
+                        <div class="cert-sign-name">Michael Ranuka Gamage</div>
+                        <div class="cert-sign-title" id="certSignTitle">Chief Curriculum Architect</div>
+                    </div>
+                </div>
+
+                <button class="modal-close-btn" id="btnCloseModal" onclick="hideBadgeModal()">Close Verification View</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- HIGH-PRECISION JS LOGIC WITH TEMPORAL SAFEGUARDS -->
+    <script>
+        /************************************************************************
+         * 1. CRITICAL VARIABLE DECLARATION ORDER (Prevents Temporal Dead Zone)
+         ************************************************************************/
+        let currentLang = 'ENG';
+        let activeStep = 0;
+        let stepCompleted = [false, false, false, false];
+        
+        // Interactive "Start Activity" status state trackers per step (Touch lockouts)
+        let activityStarted = [false, false, false, false];
+        
+        let score = 0;
+
+        // Pointer / Touch coordinates tracking
+        let touchX = 0;
+        let touchY = 0;
+        let isPointerDown = false;
+        let selectedNodeIndex = -1;
+
+        // System Core Canvas references
+        let canvas = null;
+        let ctx = null;
+        let animFrameId = null;
+
+        // Visual/Physics Variables for interactive loops
+        let particles = [];
+        let zoomTransitionFactor = 1.0;
+
+        // Active State Datasets
+        let step1Nodes = [];
+        let step1Baskets = [];
+        let step3Sockets = [];
+        let step3Blocks = [];
+        let step4BalanceAngle = 0; // Rotational angle (inertia controlled)
+        let step4Tfc = 2000;
+        let step4Price = 100;
+        let step4Vcu = 50;
+        let step4Q = 0;
+
+        // Dynamic visual effects variables
+        let successRingRadius = 0;
+        let successRingActive = false;
+        let successRingPos = { x: 0, y: 0 };
+
+        /************************************************************************
+         * 2. BILINGUAL DICTIONARY (High-Fidelity Sinhala Curriculum Terms)
+         ************************************************************************/
+        const translationMatrix = {
+            ENG: {
+                brand: "OBISL <span>Gamified Learning</span>",
+                lesson: "CBMS-M6: Entrepreneurship & Innovation",
+                footer: "OBISL Campus | Concept by Michael Ranuka Gamage | <span>CBMS - Module 6</span>",
+                tooltip: "Interactive Simulation Panel",
+                toastSuccess: "Verification Success!",
+                toastIncorrect: "Try again! Elements returned to baseline.",
+                toastBalanced: "Break-Even Equilibrium Achieved!",
+                
+                // Start screen elements
+                btnStartText: "START SIMULATION",
+                btnStartTextSin: "අනුහුරුකරණය අරඹන්න",
+                introTitle0: "EXERCISE 1: COGNITIVE MINDSET SHIFT",
+                introTitle1: "EXERCISE 2: TRI-PARTY FEASIBILITY INDEX",
+                introTitle2: "EXERCISE 3: LEAN STARTUP FEEDBACK LOOP",
+                introTitle3: "EXERCISE 4: UNIT ECONOMIC BREAK-EVEN BALANCE",
+                
+                introDesc0: "Sort means-driven Effectual reasoning from goal-driven Causal prediction models.",
+                introDesc1: "Calibrate product, industry, and financial metrics to reach critical corporate viability.",
+                introDesc2: "Map the chronology of the agile loop: Build, Measure, and Learn to guide strategic pivots.",
+                introDesc3: "Balance price, fixed, and variable units to calculate the break-even target velocity.",
+
+                // Tabs
+                tab0: "Mindset",
+                tab1: "Feasibility",
+                tab2: "Lean Loop",
+                tab3: "Break-Even",
+
+                // Card 1
+                c1Badge: "Step 1 of 4",
+                c1Title: "Effectual vs Causal Mindset",
+                c1Desc: "Sort strategic behaviors into their correct cognitive vessels. Drag each circular node to either <strong>Effectuation</strong> (Means-driven) or <strong>Causal Reasoning</strong> (Goal-driven predictions).",
+                c1Reset: "Touch to Reset Activity",
+                c1ExpTitle: "Deep-Dive Concept Explainer",
+                c1ExpBody: "<strong>Schumpeterian Creative Destruction (නිර්මාණාත්මක විනාශය):</strong> Entrepreneurs act as economic disruptors, introducing new combinations that break market equilibria.<br><br><strong>Effectuation Framework (කාරකත්ව ප්‍රවේශය):</strong> Conceptualized by Saras Sarasvathy. Entrepreneurs begin with current means: <em>Who I am</em>, <em>What I know</em>, and <em>Whom I know</em> (Bird-in-Hand principle), adapting goals dynamically through stakeholder feedback.",
+                c1Next: "Next Step →",
+
+                // Card 2
+                c2Badge: "Step 2 of 4",
+                c2Title: "Tri-Party Feasibility Calibrator",
+                c2Desc: "Calibrate Product demand, Industry attractiveness, and Financial readiness. Achieve 70% overall viability across all three dimensions to solidify structural resilience.",
+                c2Slide1: "Product Desirability",
+                c2Slide2: "Industry Attractiveness",
+                c2Slide3: "Financial Feasibility",
+                c2ExpTitle: "Deep-Dive Concept Explainer",
+                c2ExpBody: "<strong>The Tri-Party Feasibility Framework:</strong> Validates venture feasibility in parallel tracks:<br>1. <strong>Product/Service Feasibility (P):</strong> Tests desirability and technical deliverability.<br>2. <strong>Industry/Market Feasibility (I):</strong> Investigates structural attractiveness (using Porter's Five Forces).<br>3. <strong>Organizational/Financial Feasibility (F):</strong> Tests human capital compatibility and foundational unit economics.<br><br>Let the composite viability score be calculated as:<br>$$\\text{Viability Score (ශක්‍යතා අගය)} = \\frac{P + I + F}{3}$$<br>To secure feasibility verification, this index must satisfy $\\ge 70\\%$.",
+                c2Next: "Next Step →",
+
+                // Card 3
+                c3Badge: "Step 3 of 4",
+                c3Title: "The Agile Learning Cycle",
+                c3Desc: "Drag and lock the core artifacts of the Lean Feedback loop into the chronologically correct socket: Build (MVP), Measure (Data & Metrics), or Learn (Pivot or Persevere decision).",
+                c3Reset: "Touch to Reset Activity",
+                c3ExpTitle: "Deep-Dive Concept Explainer",
+                c3ExpBody: "<strong>The Lean Startup Cycle (Eric Ries):</strong> A modern framework that minimizes market cycle times by organizing actions around <strong>Build-Measure-Learn</strong> loops:<br>- <strong>Build:</strong> Develop a <em>Minimum Viable Product</em> (MVP) with minimal resources.<br>- <strong>Measure:</strong> Gather customer behaviors and test structural hypotheses using actionable data metrics.<br>- <strong>Learn:</strong> Accumulate <em>validated learning</em> to decide whether to <strong>Pivot</strong> (fundamentally reorient) or <strong>Persevere</strong>.",
+                c3Next: "Next Step →",
+
+                // Card 4
+                c4Badge: "Step 4 of 4",
+                c4Title: "Unit Economics Balance Scale",
+                c4Desc: "Perform unit economic mapping. Set Total Fixed Costs (TFC), Price (P), and Unit Variable Cost (VCU). Then, calibrate Quantity (Q) until Total Revenue balances perfectly with Total Costs!",
+                c4Tfc: "Fixed Costs (TFC)",
+                c4Price: "Price Per Unit (P)",
+                c4Vcu: "Unit Variable Cost (VCU)",
+                c4Q: "Sales Quantity (Q)",
+                c4ExpTitle: "Deep-Dive Concept Explainer",
+                c4ExpBody: "<strong>The Break-Even Point (BEP) Formula:</strong><br>$$BEP_{\\text{Units}} = \\frac{TFC}{P - VCU}$$<br>Where $TFC$ represents Total Fixed Costs, $P$ represents Unit Price, and $VCU$ represents Variable Cost per unit. The denominator $(P - VCU)$ is the <strong>Unit Contribution Margin</strong> (දායකත්ව ආන්තිකය) which offsets Fixed Costs until the equilibrium profit of zero is achieved.",
+                c4Claim: "Claim OBISL Badge ✓",
+
+                // Modal Certification
+                certHeadline: "Master Certificate of Excellence",
+                certStatement: "This certifies completion of intensive coursework in Module 6: Entrepreneurship & Innovation, establishing theoretical competence in Effectuation, Feasibility, Agile Loops, and Unit Economics.",
+                certInput: "Enter Student Name:",
+                certSignTitle: "Chief Curriculum Architect",
+                btnClose: "Close Verification View"
+            },
+            SIN: {
+                brand: "OBISL <span>සක්‍රීය ඉගෙනුම් පද්ධතිය</span>",
+                lesson: "CBMS-M6: ව්‍යවසාය හා නවෝත්පාදනය",
+                footer: "OBISL Campus | සංකල්පය: මයිකල් රනුක ගමගේ | <span>CBMS - මොඩියුලය 6</span>",
+                tooltip: "අන්තර්ක්‍රියාකාරී අනුහුරුකරණ පැනලය",
+                toastSuccess: "නිවැරදි තේරීමක්! සාර්ථකයි.",
+                toastIncorrect: "නැවත උත්සාහ කරන්න! මූලද්‍රව්‍ය යථා තත්ත්වයට පත් විය.",
+                toastBalanced: "ලාභ-අලාභ සමතුලිතතාව ළඟා කර ගන්නා ලදී!",
+                
+                // Start screen elements
+                btnStartText: "START SIMULATION",
+                btnStartTextSin: "අනුහුරුකරණය අරඹන්න",
+                introTitle0: "අභ්‍යාසය 1: ප්‍රජානන මානසිකත්ව පැවරුම",
+                introTitle1: "අභ්‍යාසය 2: ත්‍රිපාර්ශ්වික ශක්‍යතා දර්ශකය",
+                introTitle2: "අභ්‍යාසය 3: LEAN STARTUP ප්‍රතිපෝෂණ චක්‍රය",
+                introTitle3: "අභ්‍යාසය 4: ඒකක ආර්ථික ලාභ-අලාභ සමතුලිතතාව",
+                
+                introDesc0: "කාරකත්ව ප්‍රවේශය (Effectuation) සහ හේතුකාරක ප්‍රවේශය (Causal Reasoning) වෙන් කර හඳුනාගන්න.",
+                introDesc1: "ව්‍යාපාරයේ පැවැත්ම තහවුරු කිරීමට නිෂ්පාදන, කර්මාන්ත සහ මූල්‍ය ශක්‍යතා ක්‍රමාංකනය කරන්න.",
+                introDesc2: "නිර්මාණය (Build), මිනුම් (Measure), සහ ඉගෙනුම (Learn) යන චක්‍රයේ පියවර නිවැරදිව පෙළගස්වන්න.",
+                introDesc3: "මිල, ස්ථාවර පිරිවැය සහ විචල්‍ය පිරිවැය අනුව සමතුලිත විකුණුම් ප්‍රමාණය ගණනය කරන්න.",
+
+                // Tabs
+                tab0: "මානසිකත්වය",
+                tab1: "ශක්‍යතාව",
+                tab2: "ලීන් චක්‍රය",
+                tab3: "සමතුලිතතාව",
+
+                // Card 1
+                c1Badge: "පියවර 1/4",
+                c1Title: "කාරකත්ව සහ හේතුකාරක මානසිකත්වය",
+                c1Desc: "උපායමාර්ගික හැසිරීම් නිවැරදි කාණ්ඩයට ඇතුළත් කරන්න. එක් එක් වෘත්තාකාර කොටස් <strong>කාරකත්ව ප්‍රවේශය</strong> (සම්පත් මත පදනම් වූ) හෝ <strong>හේතුකාරක ප්‍රවේශය</strong> (සැලසුම් මත පදනම් වූ) වෙත ඇද දමන්න.",
+                c1Reset: "අභ්‍යාසය නැවත සකසන්න",
+                c1ExpTitle: "විෂය කරුණු ගැඹුරින් අධ්‍යයනය කරන්න",
+                c1ExpBody: "<strong>නිර්මාණාත්මක විනාශය (Schumpeterian Creative Destruction):</strong> ව්‍යවසායකයින් ආර්ථිකය තුළ පැරණි ක්‍රමවේදයන් නව සම්පත් සංයෝජන මඟින් බිඳ දමා නවෝත්පාදන බිහි කරයි.<br><br><strong>කාරකත්ව ප්‍රවේශය (Effectuation Framework):</strong> සාරා සරස්වතී මහත්මිය විසින් හඳුන්වා දෙන ලදී. ව්‍යවසායකයින් තමන් සතු සම්පත්වලින් (<em>මා කවුද</em>, <em>මා දන්නේ කුමක්ද</em>, <em>මා හඳුනන්නේ කවුද</em>) ව්‍යාපාර ඇරඹීම මෙහි ලක්ෂණයකි.",
+                c1Next: "ඊළඟ පියවර →",
+
+                // Card 2
+                c2Badge: "පියවර 2/4",
+                c2Title: "ත්‍රිපාර්ශ්වික ශක්‍යතා ක්‍රමාංකකය",
+                c2Desc: "නිෂ්පාදන ඉල්ලුම, කර්මාන්ත ආකර්ශනීයත්වය සහ මූල්‍ය සූදානම ක්‍රමාංකනය කරන්න. සමස්ත ශක්‍යතාවය 70% දක්වා ඉහළ නැංවීමෙන් ව්‍යාපාරයේ ඔරොත්තු දීමේ හැකියාව තහවුරු කරන්න.",
+                c2Slide1: "නිෂ්පාදන ආකර්ශනීයත්වය",
+                c2Slide2: "කර්මාන්ත ආකර්ශනීයත්වය",
+                c2Slide3: "මූල්‍ය ශක්‍යතාව",
+                c2ExpTitle: "විෂය කරුණු ගැඹුරින් අධ්‍යයනය කරන්න",
+                c2ExpBody: "<strong>ත්‍රිපාර්ශ්වික ශක්‍යතා රාමුව (Feasibility Matrix):</strong> ව්‍යාපාරයක සාර්ථකත්වය සමාන්තර මාර්ග තුනකින් විමසා බලයි:<br>1. <strong>නිෂ්පාදන / සේවා ශක්‍යතාව (P):</strong> තාක්ෂණික සහ පාරිභෝගික කැමැත්ත ඇගයීම.<br>2. <strong>කර්මාන්ත / වෙළෙඳපොළ ශක්‍යතාව (I):</strong> තරඟකාරීත්වය විමර්ශනය කිරීම (පෝටර්ගේ බලවේග 5 ආකෘතිය ඇසුරින්).<br>3. <strong>ආයතනික / මූල්‍ය ශක්‍යතාව (F):</strong> මානව ප්‍රාග්ධනය සහ මූලික ඒකක ආර්ථිකය ඇගයීම.<br><br>සමස්ත ශක්‍යතා අගය පහත සූත්‍රයෙන් ගණනය කෙරේ:<br>$$\\text{Viability Score (ශක්‍යතා අගය)} = \\frac{P + I + F}{3}$$<br>මෙම දර්ශකය $\\ge 70\\%$ සපුරාලීමෙන් ශක්‍යතාව තහවුරු කළ හැක.",
+                c2Next: "ඊළඟ පියවර →",
+
+                // Card 3
+                c3Badge: "පියවර 3/4",
+                c3Title: "Agile ප්‍රතිපෝෂණ චක්‍රය",
+                c3Desc: "ලීන් ස්ටාර්ටප් චක්‍රයේ ප්‍රධාන අංග නිවැරදි ස්ථානයට ඇද දමන්න: නිර්මාණය (Build), මිනුම් (Measure), හෝ ඉගෙනුම (Learn).",
+                c3Reset: "අභ්‍යාසය නැවත සකසන්න",
+                c3ExpTitle: "විෂය කරුණු ගැඹුරින් අධ්‍යයනය කරන්න",
+                c3ExpBody: "<strong>ලීන් ස්ටාර්ටප් චක්‍රය (The Lean Startup Cycle):</strong> වෙළෙඳපොළට නිෂ්පාදනයක් නිකුත් කිරීමට යන කාලය අවම කිරීම සඳහා <strong>නිර්මාණය-මිනුම්-ඉගෙනුම</strong> යන ප්‍රතිපෝෂණ චක්‍රය භාවිත කරයි:<br>- <strong>නිර්මාණය:</strong> අවම සම්පත් භාවිතයෙන් <em>අවම ශක්‍ය නිෂ්පාදනයක්</em> (MVP) නිර්මාණය කිරීම.<br>- <strong>मිනුම්:</strong> පාරිභෝගික ප්‍රතිචාර දත්ත මඟින් පරීක්ෂා කිරීම.<br>- <strong>ඉගෙනුම:</strong> දත්ත ඇසුරින් ව්‍යාපාරය <strong>හැරවුමකට</strong> (Pivot) ලක් කරන්නේද නැතහොත් <strong>පවත්වාගෙන යන්නේද</strong> (Persevere) යන්න තීරණය කිරීම.",
+                c3Next: "ඊළඟ පියවර →",
+
+                // Card 4
+                c4Badge: "පියවර 4/4",
+                c4Title: "ඒකක ආර්ථික විද්‍යා තරාදිය",
+                c4Desc: "මුළු ස්ථාවර පිරිවැය (TFC), විකුණුම් මිල (P), සහ ඒකක විචල්‍ය පිරිවැය (VCU) සකසන්න. ඉන්පසු, පිරිවැය සහ ආදායම සමතුලිත වන තුරු විකුණුම් ඒකක ප්‍රමාණය (Q) ක්‍රමාංකනය කරන්න!",
+                c4Tfc: "ස්ථාවර පිරිවැය (TFC)",
+                c4Price: "ඒකක විකුණුම් මිල (P)",
+                c4Vcu: "ඒකක විචල්‍ය පිරිවැය (VCU)",
+                c4Q: "විකුණුම් ඒකක ප්‍රමාණය (Q)",
+                c4ExpTitle: "විෂය කරුණු ගැඹුරින් අධ්‍යයනය කරන්න",
+                c4ExpBody: "<strong>ලාභ-අලාභ සමතුලිත ලක්ෂ්‍ය (BEP) සූත්‍රය:</strong><br>$$BEP_{\\text{Units}} = \\frac{TFC}{P - VCU}$$<br>මෙහි $TFC$ යනු මුළු ස්ථාවර පිරිවැය, $P$ යනු විකුණුම් මිල සහ $VCU$ යනු ඒකකයක විචල්‍ය පිරිවැය වේ. හරය වන $(P - VCU)$ මඟින් <strong>ඒකකයක දායකත්ව ආන්තිකය</strong> නිරූපණය වේ.",
+                c4Claim: "OBISL ලාංඡනය ලබාගන්න ✓",
+
+                // Modal Certification
+                certHeadline: "විශිෂ්ටත්වයේ සහතික පත්‍රය",
+                certStatement: "ව්‍යවසායකත්වය හා නවෝත්පාදනය (CBMS මොඩියුලය 6) සාර්ථකව අවසන් කිරීම වෙනුවෙන් පිරිනමන සහතිකයයි.",
+                certInput: "ශිෂ්‍යයාගේ නම ඇතුළත් කරන්න:",
+                certSignTitle: "ප්‍රධාන විෂයමාලා සැලසුම්කරු",
+                btnClose: "සහතික පත්‍රය වසන්න"
+            }
+        };
+
+        /************************************************************************
+         * 3. INITIALIZATION & LAYOUT ADAPTATION
+         ************************************************************************/
+        window.addEventListener('DOMContentLoaded', () => {
+            canvas = document.getElementById('appCanvas');
+            ctx = canvas.getContext('2d');
+
+            resizeCanvas();
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+                reinitializeActiveStepData(true); // proportional adjustment without wipeouts
+            });
+
+            // Set up strict Touch Event Overrides to block browser gestures
+            canvas.addEventListener('touchstart', handlePointerDown, { passive: false });
+            canvas.addEventListener('touchmove', handlePointerMove, { passive: false });
+            canvas.addEventListener('touchend', handlePointerUp, { passive: false });
+
+            // Set up fallback mouse handlers for non-mobile testing
+            canvas.addEventListener('mousedown', handlePointerDown);
+            canvas.addEventListener('mousemove', handlePointerMove);
+            canvas.addEventListener('mouseup', handlePointerUp);
+
+            reinitializeActiveStepData();
+            applyTranslations();
+
+            // Bind dynamic rendering listener on expansion changes to secure formula calculations inside closed summaries
+            document.querySelectorAll('.knowledge-expander').forEach(el => {
+                el.addEventListener('toggle', () => {
+                    if (el.open && window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                        window.MathJax.typesetPromise();
+                    }
+                });
+            });
+
+            renderLoop();
+        });
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width * window.devicePixelRatio;
+            canvas.height = rect.height * window.devicePixelRatio;
+            
+            // CRITICAL FIX: Reset scaling factors to avoid cumulative infinite magnification
+            ctx.setTransform(window.devicePixelRatio, 0, 0, window.devicePixelRatio, 0, 0);
+            
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+        }
+
+        /************************************************************************
+         * 4. DATA STRUCTURING & POPULATION FOR ACTIVITIES
+         ************************************************************************/
+        function reinitializeActiveStepData(isResizeOnly = false) {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+
+            if (activeStep === 0) {
+                // PROFESSIONAL ACADEMIC GRADE VOCABULARY OVERHAUL
+                const nodeData = [
+                    { labelEng: "Affordable Loss Risk Ceiling", labelSin: "දරාගත හැකි උපරිම අලාභ සීමාව", cat: "effectual" },
+                    { labelEng: "Expected ROI Projections", labelSin: "අපේක්ෂිත ලාභදායීත්ව පුරෝකථන", cat: "causal" },
+                    { labelEng: "Bird-in-Hand Resource Focus", labelSin: "අතැති සම්පත් ප්‍රමුඛතාවය", cat: "effectual" },
+                    { labelEng: "Predictive Market Surveys", labelSin: "විධිමත් පූර්ව වෙළෙඳපොළ පර්යේෂණ", cat: "causal" },
+                    { labelEng: "Crazy Quilt Commitments", labelSin: "සහයෝගී අවදානම් සන්ධානකරණය", cat: "effectual" },
+                    { labelEng: "Competitor Intelligence Mapping", labelSin: "මූලෝපායික තරඟකාරී විශ්ලේෂණය", cat: "causal" }
+                ];
+
+                const calculatedBasketRadius = Math.max(20, Math.min(width, height) * 0.18);
+                step1Baskets = [
+                    {
+                        id: "effectual",
+                        labelEng: "Effectuation",
+                        labelSin: "කාරකත්ව ප්‍රවේශය",
+                        x: width * 0.28,
+                        y: height * 0.72,
+                        r: calculatedBasketRadius,
+                        color: "#3b82f6",
+                        glowColor: "rgba(59, 130, 246, 0.4)"
+                    },
+                    {
+                        id: "causal",
+                        labelEng: "Causal Reasoning",
+                        labelSin: "හේතුකාරක ප්‍රවේශය",
+                        x: width * 0.72,
+                        y: height * 0.72,
+                        r: calculatedBasketRadius,
+                        color: "#f59e0b",
+                        glowColor: "rgba(245, 158, 11, 0.4)"
+                    }
+                ];
+
+                const radius = Math.max(12, Math.min(width, height) * 0.07);
+
+                if (isResizeOnly && step1Nodes.length > 0) {
+                    // Update positions proportionally without wiping docked states
+                    step1Nodes.forEach((n) => {
+                        n.r = radius;
+                        n.spawnX = width * 0.15 + (n.id * (width * 0.7 / 5));
+                        n.spawnY = height * 0.16 + (n.id * 10 % 30);
+                        if (n.isDocked) {
+                            const b = step1Baskets.find(basket => basket.id === n.dockedIn);
+                            if (b) {
+                                n.x = b.x;
+                                n.y = b.y;
+                            }
+                        } else if (!n.isDragged) {
+                            n.x = n.spawnX;
+                            n.y = n.spawnY;
+                        }
+                    });
+                } else {
+                    step1Nodes = [];
+                    nodeData.forEach((d, index) => {
+                        const spawnX = width * 0.15 + (index * (width * 0.7 / 5));
+                        const spawnY = height * 0.16 + (index * 10 % 30); // Deterministic offset
+                        step1Nodes.push({
+                            id: index,
+                            labelEng: d.labelEng,
+                            labelSin: d.labelSin,
+                            category: d.cat,
+                            x: spawnX,
+                            y: spawnY,
+                            spawnX: spawnX,
+                            spawnY: spawnY,
+                            r: radius,
+                            isDragged: false,
+                            isDocked: false,
+                            dockedIn: null,
+                            color: "#06b6d4"
+                        });
+                    });
+                }
+            } else if (activeStep === 2) {
+                const step3Data = [
+                    { labelEng: "MVP Deployment", labelSin: "අවම ශක්‍ය නිෂ්පාදනය (Build)", correctSocket: 0 },
+                    { labelEng: "Gather Metrics", labelSin: "දත්ත සහ මිනුම් (Measure)", correctSocket: 1 },
+                    { labelEng: "Pivot / Persevere", labelSin: "හැරවුම හෝ පැවැත්ම (Learn)", correctSocket: 2 }
+                ];
+
+                const socketR = Math.max(20, Math.min(width, height) * 0.11);
+                step3Sockets = [
+                    { id: 0, labelEng: "1. BUILD", labelSin: "1. නිර්මාණය (Build)", x: width * 0.20, y: height * 0.65, r: socketR },
+                    { id: 1, labelEng: "2. MEASURE", labelSin: "2. මිනුම්කරණය (Measure)", x: width * 0.50, y: height * 0.65, r: socketR },
+                    { id: 2, labelEng: "3. LEARN", labelSin: "3. ඉගෙනීම (Learn)", x: width * 0.80, y: height * 0.65, r: socketR }
+                ];
+
+                const blockRadius = Math.max(16, Math.min(width, height) * 0.08);
+
+                if (isResizeOnly && step3Blocks.length > 0) {
+                    step3Blocks.forEach((b) => {
+                        b.r = blockRadius;
+                        b.spawnX = width * 0.2 + (b.id * (width * 0.6 / 2));
+                        b.spawnY = height * 0.2 + (b.id * 8 % 20);
+                        if (b.isDocked) {
+                            const s = step3Sockets.find(socket => socket.id === b.dockedSocket);
+                            if (s) {
+                                b.x = s.x;
+                                b.y = s.y;
+                            }
+                        } else if (!b.isDragged) {
+                            b.x = b.spawnX;
+                            b.y = b.spawnY;
+                        }
+                    });
+                } else {
+                    step3Blocks = [];
+                    step3Data.forEach((d, index) => {
+                        const spawnX = width * 0.2 + (index * (width * 0.6 / 2));
+                        const spawnY = height * 0.2 + (index * 8 % 20); // Deterministic offset
+                        step3Blocks.push({
+                            id: index,
+                            labelEng: d.labelEng,
+                            labelSin: d.labelSin,
+                            correctSocket: d.correctSocket,
+                            x: spawnX,
+                            y: spawnY,
+                            spawnX: spawnX,
+                            spawnY: spawnY,
+                            r: blockRadius,
+                            isDragged: false,
+                            isDocked: false,
+                            dockedSocket: null,
+                            color: "#a855f7"
+                        });
+                    });
+                }
+            }
+        }
+
+        /************************************************************************
+         * 5. NAVIGATION STATE ENGINE
+         ************************************************************************/
+        function navigateToStep(stepIndex) {
+            if (stepIndex < 0 || stepIndex > 3) return;
+            activeStep = stepIndex;
+
+            const wrapper = document.getElementById('cardsWrapper');
+            wrapper.style.transform = `translateX(-${stepIndex * 25}%)`;
+
+            for (let i = 0; i < 4; i++) {
+                const tab = document.getElementById(`tab${i}`);
+                if (i === stepIndex) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            }
+
+            zoomTransitionFactor = 0.5;
+            reinitializeActiveStepData();
+        }
+
+        function checkBadgeActivation() {
+            const btnClaim = document.getElementById('btnClaimBadge');
+            const allComplete = stepCompleted[0] && stepCompleted[1] && stepCompleted[2] && stepCompleted[3];
+            if (allComplete) {
+                btnClaim.removeAttribute('disabled');
+                btnClaim.style.animation = "pulse-gold 2s infinite";
+            } else {
+                btnClaim.setAttribute('disabled', 'true');
+                btnClaim.style.animation = "none";
+            }
+        }
+
+        /************************************************************************
+         * 6. TOUCH / MOUSE INTERACTION ROUTERS & CLICK TARGET AUDITING
+         ************************************************************************/
+        function getCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else if (e.changedTouches && e.changedTouches.length > 0) {
+                clientX = e.changedTouches[0].clientX;
+                clientY = e.changedTouches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            return {
+                x: (clientX - rect.left) * (rect.width ? (canvas.width / window.devicePixelRatio) / rect.width : 1),
+                y: (clientY - rect.top) * (rect.height ? (canvas.height / window.devicePixelRatio) / rect.height : 1)
+            };
+        }
+
+        function handlePointerDown(e) {
+            if (e.cancelable) e.preventDefault();
+            const coords = getCoords(e);
+            touchX = coords.x;
+            touchY = coords.y;
+            isPointerDown = true;
+
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+
+            // CRITICAL ALIGNMENT AUDIT: Start overlays match perfectly between coordinate testers & visual drawers
+            if (!activityStarted[activeStep]) {
+                const btnW = Math.min(220, width * 0.7);
+                const btnH = 38;
+                const btnX = width / 2 - btnW / 2;
+                const btnY = height * 0.78 - btnH / 2;
+
+                if (touchX >= btnX && touchX <= btnX + btnW && touchY >= btnY && touchY <= btnY + btnH) {
+                    activityStarted[activeStep] = true;
+                    triggerSuccessRing(width / 2, height * 0.78);
+                    showToast(currentLang === 'ENG' ? "Simulation Initialized!" : "අනුහුරුකරණය සක්‍රීය කරන ලදී!");
+                }
+                return;
+            }
+
+            if (activeStep === 0) {
+                for (let i = 0; i < step1Nodes.length; i++) {
+                    const node = step1Nodes[i];
+                    const dist = Math.hypot(touchX - node.x, touchY - node.y);
+                    if (dist < Math.max(0.1, node.r + 5)) { // Plus padding for mobile tap comfort
+                        selectedNodeIndex = i;
+                        node.isDragged = true;
+                        break;
+                    }
+                }
+            } else if (activeStep === 2) {
+                for (let i = 0; i < step3Blocks.length; i++) {
+                    const b = step3Blocks[i];
+                    const dist = Math.hypot(touchX - b.x, touchY - b.y);
+                    if (dist < Math.max(0.1, b.r + 5)) {
+                        selectedNodeIndex = i;
+                        b.isDragged = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        function handlePointerMove(e) {
+            if (e.cancelable) e.preventDefault();
+            if (!isPointerDown) return;
+            const coords = getCoords(e);
+            touchX = coords.x;
+            touchY = coords.y;
+
+            if (!activityStarted[activeStep]) return;
+
+            if (activeStep === 0 && selectedNodeIndex !== -1) {
+                const node = step1Nodes[selectedNodeIndex];
+                node.x = touchX;
+                node.y = touchY;
+            } else if (activeStep === 2 && selectedNodeIndex !== -1) {
+                const b = step3Blocks[selectedNodeIndex];
+                b.x = touchX;
+                b.y = touchY;
+            }
+        }
+
+        function handlePointerUp(e) {
+            if (e.cancelable) e.preventDefault();
+            isPointerDown = false;
+
+            if (!activityStarted[activeStep]) return;
+
+            if (activeStep === 0 && selectedNodeIndex !== -1) {
+                const node = step1Nodes[selectedNodeIndex];
+                node.isDragged = false;
+
+                let successfullyPlaced = false;
+                for (let i = 0; i < step1Baskets.length; i++) {
+                    const b = step1Baskets[i];
+                    const dist = Math.hypot(node.x - b.x, node.y - b.y);
+                    if (dist < Math.max(0.1, b.r)) {
+                        if (node.category === b.id) {
+                            node.isDocked = true;
+                            node.dockedIn = b.id;
+                            node.x = b.x + (Math.random() - 0.5) * (b.r * 0.4);
+                            node.y = b.y + (Math.random() - 0.5) * (b.r * 0.4);
+                            successfullyPlaced = true;
+                            triggerSuccessRing(node.x, node.y);
+                            break;
+                        }
+                    }
+                }
+
+                if (!successfullyPlaced) {
+                    node.x = node.spawnX;
+                    node.y = node.spawnY;
+                    node.isDocked = false;
+                    node.dockedIn = null;
+                }
+
+                selectedNodeIndex = -1;
+                verifyStep1Completion();
+            } else if (activeStep === 2 && selectedNodeIndex !== -1) {
+                const b = step3Blocks[selectedNodeIndex];
+                b.isDragged = false;
+
+                let successfullyPlaced = false;
+                for (let i = 0; i < step3Sockets.length; i++) {
+                    const s = step3Sockets[i];
+                    const dist = Math.hypot(b.x - s.x, b.y - s.y);
+                    if (dist < Math.max(0.1, s.r)) {
+                        if (b.correctSocket === s.id) {
+                            b.isDocked = true;
+                            b.dockedSocket = s.id;
+                            b.x = s.x;
+                            b.y = s.y;
+                            successfullyPlaced = true;
+                            triggerSuccessRing(b.x, b.y);
+                            break;
+                        }
+                    }
+                }
+
+                if (!successfullyPlaced) {
+                    b.x = b.spawnX;
+                    b.y = b.spawnY;
+                    b.isDocked = false;
+                    b.dockedSocket = null;
+                }
+
+                selectedNodeIndex = -1;
+                verifyStep3Completion();
+            }
+        }
+
+        /************************************************************************
+         * 7. ACTIVITY TASK VERIFICATION LOOPS
+         ************************************************************************/
+        function verifyStep1Completion() {
+            const allDocked = step1Nodes.every(n => n.isDocked);
+            if (allDocked) {
+                stepCompleted[0] = true;
+                markTabCompleted(0);
+                showToast(translationMatrix[currentLang].toastSuccess);
+                triggerSuccessAnimation();
+                checkBadgeActivation();
+            }
+        }
+
+        function verifyStep3Completion() {
+            const allDocked = step3Blocks.every(b => b.isDocked);
+            if (allDocked) {
+                stepCompleted[2] = true;
+                markTabCompleted(2);
+                showToast(translationMatrix[currentLang].toastSuccess);
+                triggerSuccessAnimation();
+                checkBadgeActivation();
+            }
+        }
+
+        function markTabCompleted(stepIndex) {
+            const tab = document.getElementById(`tab${stepIndex}`);
+            tab.classList.add('completed');
+            
+            const btnTask = document.getElementById(`btnTask${stepIndex === 0 ? '1' : '3'}`);
+            if (btnTask) {
+                btnTask.classList.add('completed');
+                btnTask.innerText = currentLang === 'ENG' ? "Activity Verified ✓" : "අභ්‍යාසය තහවුරු කර ඇත ✓";
+            }
+        }
+
+        function resetActivity(stepIndex) {
+            stepCompleted[stepIndex] = false;
+            const tab = document.getElementById(`tab${stepIndex}`);
+            tab.classList.remove('completed');
+
+            const btnTask = document.getElementById(`btnTask${stepIndex === 0 ? '1' : '3'}`);
+            if (btnTask) {
+                btnTask.classList.remove('completed');
+                btnTask.innerText = translationMatrix[currentLang].c1Reset;
+            }
+
+            // KEEP ACTIVE ON RESET: Ensures nodes reappear instantly without redundant start screen taps
+            activityStarted[stepIndex] = true;
+            reinitializeActiveStepData();
+            checkBadgeActivation();
+        }
+
+        function handleSliderInput() {
+            // MOBILITY FIX: Automatically start the canvas visualizer once users shift numerical inputs
+            if (!activityStarted[1]) {
+                activityStarted[1] = true;
+            }
+
+            const sProd = parseInt(document.getElementById('slideProduct').value);
+            const sInd = parseInt(document.getElementById('slideIndustry').value);
+            const sFin = parseInt(document.getElementById('slideFinance').value);
+
+            document.getElementById('val-slide1').innerText = `${sProd}%`;
+            document.getElementById('val-slide2').innerText = `${sInd}%`;
+            document.getElementById('val-slide3').innerText = `${sFin}%`;
+
+            const averageScore = Math.round((sProd + sInd + sFin) / 3);
+
+            if (averageScore >= 70 && !stepCompleted[1]) {
+                stepCompleted[1] = true;
+                document.getElementById('tab1').classList.add('completed');
+                showToast(translationMatrix[currentLang].toastSuccess);
+                triggerSuccessAnimation();
+                checkBadgeActivation();
+            } else if (averageScore < 70 && stepCompleted[1]) {
+                stepCompleted[1] = false;
+                document.getElementById('tab1').classList.remove('completed');
+                checkBadgeActivation();
+            }
+        }
+
+        function handleBepInputs() {
+            // MOBILITY FIX: Automatically start the break-even balance scaling once users shift numerical inputs
+            if (!activityStarted[3]) {
+                activityStarted[3] = true;
+            }
+
+            step4Tfc = parseInt(document.getElementById('slideTfc').value);
+            step4Price = parseInt(document.getElementById('slidePrice').value);
+            step4Vcu = parseInt(document.getElementById('slideVcu').value);
+
+            const contributionMargin = step4Price - step4Vcu;
+            let bepTarget = 0;
+            if (contributionMargin > 0) {
+                bepTarget = Math.ceil(step4Tfc / contributionMargin);
+            }
+
+            // DYNAMIC SLIDER MAX RANGE UNLOCK: Eliminate mathematical deadlock if TFC demands scale higher than 100
+            const slideQ = document.getElementById('slideQ');
+            const requiredMaxRange = Math.max(100, Math.ceil(bepTarget * 1.5));
+            slideQ.max = requiredMaxRange;
+
+            step4Q = parseInt(slideQ.value);
+
+            document.getElementById('val-bep-tfc').innerText = `$${step4Tfc.toLocaleString()}`;
+            document.getElementById('val-bep-price').innerText = `$${step4Price}`;
+            document.getElementById('val-bep-vcu').innerText = `$${step4Vcu}`;
+            document.getElementById('val-bep-q').innerText = `${step4Q} Units`;
+
+            if (step4Q === bepTarget && bepTarget > 0) {
+                if (!stepCompleted[3]) {
+                    stepCompleted[3] = true;
+                    document.getElementById('tab3').classList.add('completed');
+                    showToast(translationMatrix[currentLang].toastBalanced);
+                    triggerSuccessAnimation();
+                    checkBadgeActivation();
+                }
+            } else {
+                if (stepCompleted[3]) {
+                    stepCompleted[3] = false;
+                    document.getElementById('tab3').classList.remove('completed');
+                    checkBadgeActivation();
+                }
+            }
+        }
+
+        /************************************************************************
+         * 9. RENDERING SYSTEMS (HTML5 HIGH-PRECISION RECURSION)
+         ************************************************************************/
+        function renderLoop() {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+
+            ctx.clearRect(0, 0, width, height);
+            drawBackdropGrid(width, height);
+
+            if (zoomTransitionFactor < 1.0) zoomTransitionFactor += 0.05;
+
+            // IF STATE NOT INITIATED: Render beautiful responsive instructional start screens
+            if (!activityStarted[activeStep]) {
+                drawIntroStartScreen(width, height);
+            } else {
+                switch (activeStep) {
+                    case 0:
+                        drawStep1Sorting(width, height);
+                        break;
+                    case 1:
+                        drawStep2Feasibility(width, height);
+                        break;
+                    case 2:
+                        drawStep3AgilePipeline(width, height);
+                        break;
+                    case 3:
+                        drawStep4BreakEvenScale(width, height);
+                        break;
+                }
+            }
+
+            updateAndDrawParticles();
+            drawSuccessRing();
+
+            animFrameId = requestAnimationFrame(renderLoop);
+        }
+
+        function drawBackdropGrid(w, h) {
+            ctx.strokeStyle = "#121b2d";
+            ctx.lineWidth = 1;
+            const size = 25;
+
+            for (let x = 0; x < w; x += size) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (let y = 0; y < h; y += size) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+        }
+
+        /* AUTO-WRAPPING HELPER: Perfectly segments any string for narrow displays */
+        function fillWrappedText(context, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(" ");
+            let line = "";
+            let currentY = y;
+
+            for (let n = 0; n < words.length; n++) {
+                let testLine = line + words[n] + " ";
+                let metrics = context.measureText(testLine);
+                let testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    context.fillText(line, x, currentY);
+                    line = words[n] + " ";
+                    currentY += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, x, currentY);
+        }
+
+        /************************************************************************
+         * RESPONSIVE START SCREEN DRAWER
+         ************************************************************************/
+        function drawIntroStartScreen(w, h) {
+            const dict = translationMatrix[currentLang];
+
+            // 1. Transparent Frosted glass effect
+            ctx.fillStyle = "rgba(5, 8, 17, 0.92)";
+            ctx.fillRect(0, 0, w, h);
+
+            // Pulse glow play icon
+            const pulseSize = 25 + Math.sin(Date.now() * 0.005) * 3;
+            ctx.beginPath();
+            ctx.arc(w / 2, h * 0.28, Math.max(1, pulseSize), 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(204, 164, 59, 0.12)";
+            ctx.fill();
+            ctx.strokeStyle = "rgba(204, 164, 59, 0.5)";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Inner play triangle
+            ctx.beginPath();
+            ctx.moveTo(w / 2 - 6, h * 0.28 - 8);
+            ctx.lineTo(w / 2 + 10, h * 0.28);
+            ctx.lineTo(w / 2 - 6, h * 0.28 + 8);
+            ctx.closePath();
+            ctx.fillStyle = "var(--accent-gold)";
+            ctx.fill();
+
+            // 2. Headings & wrapped instructions
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "800 0.78rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            
+            let headline = dict[`introTitle${activeStep}`];
+            ctx.fillText(headline, w / 2, h * 0.50);
+
+            ctx.fillStyle = "var(--text-muted)";
+            ctx.font = "500 0.68rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+            let description = dict[`introDesc${activeStep}`];
+            fillWrappedText(ctx, description, w / 2, h * 0.60, w * 0.85, 14);
+
+            // 3. Perfectly Centered Bounding box values
+            const btnW = Math.min(220, w * 0.7);
+            const btnH = 38;
+            const btnX = w / 2 - btnW / 2;
+            const btnY = h * 0.78 - btnH / 2;
+
+            // Rounded rectangle path wrapper for older browser compliance
+            ctx.beginPath();
+            if (ctx.roundRect) {
+                ctx.roundRect(btnX, btnY, btnW, btnH, 6);
+            } else {
+                ctx.rect(btnX, btnY, btnW, btnH);
+            }
+            
+            // Highlight Gradient
+            const grad = ctx.createLinearGradient(btnX, btnY, btnX + btnW, btnY);
+            grad.addColorStop(0, "rgba(204, 164, 59, 1)");
+            grad.addColorStop(1, "rgba(168, 129, 38, 1)");
+            ctx.fillStyle = grad;
+            ctx.fill();
+            
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Text overlay
+            ctx.fillStyle = "#050811";
+            ctx.font = "800 0.7rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+            const btnLabel = currentLang === 'ENG' ? dict.btnStartText : dict.btnStartTextSin;
+            ctx.fillText(btnLabel, w / 2, h * 0.78);
+        }
+
+        /* HIGHLY PROFESSIONAL NODE TEXT RENDER UTILITY: Line-wrapping node text nicely to maximize legibility */
+        function drawNodeText(label, x, y, r) {
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "800 0.55rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+            const words = label.split(" ");
+            if (words.length >= 4) {
+                ctx.fillText(words.slice(0, 2).join(" "), x, y - 10);
+                ctx.fillText(words.slice(2, 4).join(" "), x, y);
+                ctx.fillText(words.slice(4).join(" "), x, y + 10);
+            } else if (words.length === 3) {
+                ctx.fillText(words[0], x, y - 9);
+                ctx.fillText(words[1], x, y + 1);
+                ctx.fillText(words[2], x, y + 11);
+            } else if (words.length === 2) {
+                ctx.fillText(words[0], x, y - 5);
+                ctx.fillText(words[1], x, y + 5);
+            } else {
+                ctx.fillText(label, x, y);
+            }
+        }
+
+        // STEP 1 sorting drawers
+        function drawStep1Sorting(w, h) {
+            step1Baskets.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, Math.max(0.1, b.r), 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(18, 24, 36, 0.8)";
+                ctx.fill();
+                ctx.strokeStyle = b.color;
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, Math.max(0.1, b.r - 4), 0, Math.PI * 2);
+                ctx.fillStyle = b.glowColor;
+                ctx.fill();
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "800 0.72rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const text = currentLang === 'ENG' ? b.labelEng : b.labelSin;
+                ctx.fillText(text.toUpperCase(), b.x, b.y + b.r - 18);
+            });
+
+            step1Nodes.forEach(n => {
+                if (n.isDocked) {
+                    const basket = step1Baskets.find(b => b.id === n.dockedIn);
+                    if (basket) {
+                        ctx.beginPath();
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(basket.x, basket.y);
+                        ctx.strokeStyle = "rgba(16, 185, 129, 0.4)";
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            step1Nodes.forEach(n => {
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, Math.max(0.1, n.r), 0, Math.PI * 2);
+                ctx.fillStyle = n.isDocked ? "rgba(16, 185, 129, 0.95)" : "rgba(30, 41, 59, 0.9)";
+                ctx.fill();
+                ctx.strokeStyle = n.isDragged ? "#06b6d4" : (n.isDocked ? "#10b981" : "rgba(255,255,255,0.2)");
+                ctx.lineWidth = n.isDragged ? 3 : 1.5;
+                ctx.stroke();
+
+                const label = currentLang === 'ENG' ? n.labelEng : n.labelSin;
+                drawNodeText(label, n.x, n.y, n.r);
+            });
+        }
+
+        // STEP 2 feasibility node network
+        function drawStep2Feasibility(w, h) {
+            const pVal = parseInt(document.getElementById('slideProduct').value);
+            const iVal = parseInt(document.getElementById('slideIndustry').value);
+            const fVal = parseInt(document.getElementById('slideFinance').value);
+
+            const nProd = { x: w * 0.5, y: h * 0.18, value: pVal, label: currentLang === 'ENG' ? "Product Feasibility" : "නිෂ්පාදන ශක්‍යතාව" };
+            const nInd = { x: w * 0.22, y: h * 0.72, value: iVal, label: currentLang === 'ENG' ? "Industry Feasibility" : "කර්මාන්ත ශක්‍යතාව" };
+            const nFin = { x: w * 0.78, y: h * 0.72, value: fVal, label: currentLang === 'ENG' ? "Financial Feasibility" : "මූල්‍ය ශක්‍යතාව" };
+            const nCenter = { x: w * 0.5, y: h * 0.48, label: currentLang === 'ENG' ? "Venture Viability" : "ව්‍යාපාර ශක්‍යතාව" };
+
+            const nodes = [nProd, nInd, nFin];
+
+            nodes.forEach(node => {
+                const ratio = node.value / 100;
+                ctx.beginPath();
+                ctx.moveTo(nCenter.x, nCenter.y);
+                ctx.lineTo(node.x, node.y);
+                ctx.lineWidth = 1 + (ratio * 8);
+                ctx.strokeStyle = `rgba(6, 182, 212, ${0.15 + (ratio * 0.85)})`;
+                ctx.stroke();
+            });
+
+            ctx.beginPath();
+            ctx.moveTo(nProd.x, nProd.y);
+            ctx.lineTo(nInd.x, nInd.y);
+            ctx.lineTo(nFin.x, nFin.y);
+            ctx.closePath();
+            ctx.strokeStyle = "rgba(255,255,255,0.06)";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            nodes.forEach(node => {
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 22, 0, Math.PI * 2);
+                ctx.fillStyle = "#1e293b";
+                ctx.fill();
+                ctx.strokeStyle = node.value >= 70 ? "#10b981" : "rgba(255,255,255,0.15)";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, Math.max(0.1, 22 + (node.value * 0.15)), 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(6, 182, 212, ${0.1 + (node.value * 0.003)})`;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "700 0.65rem 'Inter', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText(`${node.value}%`, node.x, node.y);
+
+                ctx.fillStyle = varColorText();
+                ctx.font = "800 0.6rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.fillText(node.label.toUpperCase(), node.x, node.y + 35);
+            });
+
+            const avgVal = Math.round((pVal + iVal + fVal) / 3);
+            const coreRadius = Math.max(1, 32 + (avgVal * 0.15));
+
+            ctx.beginPath();
+            ctx.arc(nCenter.x, nCenter.y, coreRadius, 0, Math.PI * 2);
+            ctx.fillStyle = avgVal >= 70 ? "rgba(16, 185, 129, 0.95)" : "rgba(204, 164, 59, 0.95)";
+            ctx.fill();
+            ctx.strokeStyle = avgVal >= 70 ? "#10b981" : "#cca43b";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.fillStyle = avgVal >= 70 ? "#ffffff" : "#050811";
+            ctx.font = "900 0.72rem 'Inter', sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(`${avgVal}%`, nCenter.x, nCenter.y - 4);
+            ctx.font = "800 0.5rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+            const viabilityLabel = currentLang === 'ENG' ? "VIABLE" : "ශක්‍ය වේ";
+            const unviableLabel = currentLang === 'ENG' ? "CALIBRATE" : "ක්‍රමාංකනය";
+            ctx.fillText(avgVal >= 70 ? viabilityLabel : unviableLabel, nCenter.x, nCenter.y + 8);
+
+            if (avgVal >= 70) {
+                const pulseRadius = Math.max(0.1, coreRadius + (Math.sin(Date.now() * 0.005) * 6));
+                ctx.beginPath();
+                ctx.arc(nCenter.x, nCenter.y, pulseRadius, 0, Math.PI * 2);
+                ctx.strokeStyle = "rgba(16, 185, 129, 0.35)";
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        // STEP 3 chronological learning loops
+        function drawStep3AgilePipeline(w, h) {
+            ctx.beginPath();
+            ctx.moveTo(step3Sockets[0].x, step3Sockets[0].y);
+            ctx.lineTo(step3Sockets[1].x, step3Sockets[1].y);
+            ctx.lineTo(step3Sockets[2].x, step3Sockets[2].y);
+            ctx.strokeStyle = "rgba(255,255,255,0.08)";
+            ctx.lineWidth = 6;
+            ctx.stroke();
+
+            if (stepCompleted[2]) {
+                const speed = (Date.now() * 0.05) % 150;
+                ctx.strokeStyle = "rgba(168, 85, 247, 0.5)";
+                ctx.lineWidth = 3;
+                ctx.setLineDash([15, 30]);
+                ctx.lineDashOffset = -speed;
+                ctx.beginPath();
+                ctx.moveTo(step3Sockets[0].x, step3Sockets[0].y);
+                ctx.lineTo(step3Sockets[1].x, step3Sockets[1].y);
+                ctx.lineTo(step3Sockets[2].x, step3Sockets[2].y);
+                ctx.lineTo(step3Sockets[0].x, step3Sockets[0].y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            step3Sockets.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, Math.max(0.1, s.r), 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(15, 23, 42, 0.75)";
+                ctx.fill();
+                ctx.strokeStyle = "rgba(168, 85, 247, 0.5)";
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = "rgba(168, 85, 247, 0.8)";
+                ctx.font = "800 0.52rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const lbl = currentLang === 'ENG' ? s.labelEng : s.labelSin;
+                ctx.fillText(lbl, s.x, s.y);
+            });
+
+            step3Blocks.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, Math.max(0.1, b.r), 0, Math.PI * 2);
+                ctx.fillStyle = b.isDocked ? "rgba(16, 185, 129, 0.9)" : "rgba(168, 85, 247, 0.85)";
+                ctx.fill();
+                ctx.strokeStyle = b.isDragged ? "#06b6d4" : "rgba(255,255,255,0.15)";
+                ctx.lineWidth = b.isDragged ? 3 : 1.5;
+                ctx.stroke();
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "700 0.58rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const label = currentLang === 'ENG' ? b.labelEng : b.labelSin;
+                
+                if (label.length > 14) {
+                    const words = label.split(" ");
+                    ctx.fillText(words.slice(0, 2).join(" "), b.x, b.y - 6);
+                    ctx.fillText(words.slice(2).join(" "), b.x, b.y + 6);
+                } else {
+                    ctx.fillText(label, b.x, b.y);
+                }
+            });
+        }
+
+        // STEP 4 unit economic balance scale
+        function drawStep4BreakEvenScale(w, h) {
+            const totalCost = step4Tfc + (step4Vcu * step4Q);
+            const totalRevenue = step4Price * step4Q;
+
+            let balanceWeightDiff = totalCost - totalRevenue;
+            let targetAngle = balanceWeightDiff * 0.00004;
+            const maxAngle = Math.PI * 0.08;
+            if (targetAngle > maxAngle) targetAngle = maxAngle;
+            if (targetAngle < -maxAngle) targetAngle = -maxAngle;
+
+            step4BalanceAngle += (targetAngle - step4BalanceAngle) * 0.1;
+
+            const pivotX = w * 0.5;
+            const pivotY = h * 0.72;
+            const beamLength = w * 0.58;
+            const beamTopY = h * 0.35;
+
+            ctx.beginPath();
+            ctx.moveTo(pivotX, pivotY);
+            ctx.lineTo(pivotX - 15, pivotY + 20);
+            ctx.lineTo(pivotX + 15, pivotY + 20);
+            ctx.closePath();
+            ctx.fillStyle = "#1e293b";
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(pivotX, pivotY);
+            ctx.lineTo(pivotX, beamTopY);
+            ctx.strokeStyle = "#334155";
+            ctx.lineWidth = 8;
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(pivotX, beamTopY);
+            ctx.rotate(step4BalanceAngle);
+
+            ctx.beginPath();
+            ctx.moveTo(-beamLength / 2, 0);
+            ctx.lineTo(beamLength / 2, 0);
+            ctx.strokeStyle = "#cca43b";
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(0, 0, 6, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffffff";
+            ctx.fill();
+
+            ctx.restore();
+
+            const sVal = Math.sin(step4BalanceAngle);
+            const cVal = Math.cos(step4BalanceAngle);
+            
+            // HEAVIER SINK PHYSICS REMAPPED: Left side sinks down with heavier cost, and rises with heavier revenue
+            const rLeftWorld = {
+                x: pivotX - (beamLength/2 * cVal),
+                y: beamTopY + (beamLength/2 * sVal)
+            };
+            const rRightWorld = {
+                x: pivotX + (beamLength/2 * cVal),
+                y: beamTopY - (beamLength/2 * sVal)
+            };
+
+            const panStringLength = h * 0.22;
+            const panWidth = w * 0.16;
+
+            ctx.beginPath();
+            ctx.moveTo(rLeftWorld.x, rLeftWorld.y);
+            ctx.lineTo(rLeftWorld.x - panWidth/2, rLeftWorld.y + panStringLength);
+            ctx.lineTo(rLeftWorld.x + panWidth/2, rLeftWorld.y + panStringLength);
+            ctx.closePath();
+            ctx.strokeStyle = "rgba(239, 68, 68, 0.4)";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(rLeftWorld.x - panWidth/2 - 4, rLeftWorld.y + panStringLength);
+            ctx.lineTo(rLeftWorld.x + panWidth/2 + 4, rLeftWorld.y + panStringLength);
+            ctx.strokeStyle = "#ef4444";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            const costHeight = Math.min(40, (totalCost / 6000) * 40);
+            if (costHeight > 0) {
+                ctx.fillStyle = "rgba(239, 68, 68, 0.85)";
+                ctx.fillRect(rLeftWorld.x - 12, rLeftWorld.y + panStringLength - costHeight, 24, costHeight);
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(rRightWorld.x, rRightWorld.y);
+            ctx.lineTo(rRightWorld.x - panWidth/2, rRightWorld.y + panStringLength);
+            ctx.lineTo(rRightWorld.x + panWidth/2, rRightWorld.y + panStringLength);
+            ctx.closePath();
+            ctx.strokeStyle = "rgba(16, 185, 129, 0.4)";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(rRightWorld.x - panWidth/2 - 4, rRightWorld.y + panStringLength);
+            ctx.lineTo(rRightWorld.x + panWidth/2 + 4, rRightWorld.y + panStringLength);
+            ctx.strokeStyle = "#10b981";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            const revHeight = Math.min(40, (totalRevenue / 6000) * 40);
+            if (revHeight > 0) {
+                ctx.fillStyle = "rgba(16, 185, 129, 0.85)";
+                ctx.fillRect(rRightWorld.x - 12, rRightWorld.y + panStringLength - revHeight, 24, revHeight);
+            }
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "800 0.6rem 'Inter', sans-serif";
+            ctx.textAlign = "center";
+            
+            const costText = currentLang === 'ENG' ? `COSTS: $${totalCost.toLocaleString()}` : `පිරිවැය: $${totalCost.toLocaleString()}`;
+            const revenueText = currentLang === 'ENG' ? `REVENUE: $${totalRevenue.toLocaleString()}` : `ආදායම: $${totalRevenue.toLocaleString()}`;
+            
+            ctx.fillText(costText, rLeftWorld.x, rLeftWorld.y + panStringLength + 14);
+            ctx.fillText(revenueText, rRightWorld.x, rRightWorld.y + panStringLength + 14);
+
+            if (stepCompleted[3]) {
+                ctx.fillStyle = "rgba(16, 185, 129, 0.12)";
+                ctx.fillRect(w * 0.1, h * 0.08, w * 0.8, 28);
+                ctx.strokeStyle = "#10b981";
+                ctx.strokeRect(w * 0.1, h * 0.08, w * 0.8, 28);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "800 0.68rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const winText = currentLang === 'ENG' ? "BREAK-EVEN ACHIEVED!" : "ලාභ-අලාභ සමතුලිතතාව ළඟා කර ඇත!";
+                ctx.fillText(winText, w * 0.5, h * 0.08 + 14);
+            } else {
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "800 0.62rem 'Inter', 'Noto Sans Sinhala', sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                const adjustText = currentLang === 'ENG' ? "CALIBRATE SALES Q TO BALANCE SCALE" : "තුලනය කිරීමට විකුණුම් ඒකක (Q) සකසන්න";
+                ctx.fillText(adjustText, w * 0.5, h * 0.12);
+            }
+        }
+
+        function updateAndDrawParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= 0.02;
+                p.life--;
+
+                ctx.save();
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, Math.max(0.1, p.r), 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.restore();
+
+                if (p.alpha <= 0 || p.life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function triggerSuccessAnimation() {
+            const width = canvas.width / window.devicePixelRatio;
+            const height = canvas.height / window.devicePixelRatio;
+            
+            const colors = ["#cca43b", "#06b6d4", "#10b981", "#a855f7"];
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: height + 10,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: -Math.random() * 8 - 4,
+                    r: Math.random() * 4 + 2,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    alpha: 1.0,
+                    life: 100
+                });
+            }
+        }
+
+        function triggerSuccessRing(x, y) {
+            successRingActive = true;
+            successRingRadius = 0;
+            successRingPos.x = x;
+            successRingPos.y = y;
+        }
+
+        function drawSuccessRing() {
+            if (!successRingActive) return;
+            successRingRadius += 2;
+            const maxRadius = 35;
+            const alpha = 1 - (successRingRadius / maxRadius);
+
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.arc(successRingPos.x, successRingPos.y, Math.max(0.1, successRingRadius), 0, Math.PI * 2);
+            ctx.strokeStyle = "#10b981";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+
+            if (successRingRadius >= maxRadius) {
+                successRingActive = false;
+            }
+        }
+
+        function varColorText() {
+            return "#94a3b8";
+        }
+
+        /************************************************************************
+         * 9. LOCAL BILINGUAL INTERACTIVE RENDERS
+         ************************************************************************/
+        function toggleLanguage() {
+            currentLang = currentLang === 'ENG' ? 'SIN' : 'ENG';
+            
+            const tEng = document.getElementById('langEng');
+            const tSin = document.getElementById('langSin');
+            if (currentLang === 'ENG') {
+                tEng.classList.add('active');
+                tSin.classList.remove('active');
+            } else {
+                tSin.classList.add('active');
+                tEng.classList.remove('active');
+            }
+
+            applyTranslations();
+            reinitializeActiveStepData();
+        }
+
+        function applyTranslations() {
+            const dict = translationMatrix[currentLang];
+            
+            document.getElementById('brandText').innerHTML = dict.brand;
+            document.getElementById('headerLesson').innerText = dict.lesson;
+            document.getElementById('footerText').innerHTML = dict.footer;
+            document.getElementById('canvasTooltip').innerText = dict.tooltip;
+
+            document.getElementById('tab0-txt').innerText = dict.tab0;
+            document.getElementById('tab1-txt').innerText = dict.tab1;
+            document.getElementById('tab2-txt').innerText = dict.tab2;
+            document.getElementById('tab3-txt').innerText = dict.tab3;
+
+            // Card 1
+            document.getElementById('c1-badge').innerText = dict.c1Badge;
+            document.getElementById('c1-title').innerText = dict.c1Title;
+            document.getElementById('c1-desc').innerHTML = dict.c1Desc;
+            document.getElementById('c1-exp-lbl').innerText = dict.c1ExpTitle;
+            document.getElementById('c1-expander-body').innerHTML = dict.c1ExpBody;
+            document.getElementById('c1-btn-next').innerText = dict.c1Next;
+            const btnTask1 = document.getElementById('btnTask1');
+            if (btnTask1 && !stepCompleted[0]) btnTask1.innerText = dict.c1Reset;
+
+            // Card 2
+            document.getElementById('c2-badge').innerText = dict.c2Badge;
+            document.getElementById('c2-title').innerText = dict.c2Title;
+            document.getElementById('c2-desc').innerText = dict.c2Desc;
+            document.getElementById('lbl-slide1').innerText = dict.c2Slide1;
+            document.getElementById('lbl-slide2').innerText = dict.c2Slide2;
+            document.getElementById('lbl-slide3').innerText = dict.c2Slide3;
+            document.getElementById('c2-exp-lbl').innerText = dict.c2ExpTitle;
+            document.getElementById('c2-expander-body').innerHTML = dict.c2ExpBody;
+            document.getElementById('c2-btn-next').innerText = dict.c2Next;
+
+            // Card 3
+            document.getElementById('c3-badge').innerText = dict.c3Badge;
+            document.getElementById('c3-title').innerText = dict.c3Title;
+            document.getElementById('c3-desc').innerText = dict.c3Desc;
+            document.getElementById('c3-exp-lbl').innerText = dict.c3ExpTitle;
+            document.getElementById('c3-expander-body').innerHTML = dict.c3ExpBody;
+            document.getElementById('c3-btn-next').innerText = dict.c3Next;
+            const btnTask3 = document.getElementById('btnTask3');
+            if (btnTask3 && !stepCompleted[2]) btnTask3.innerText = dict.c1Reset;
+
+            // Card 4
+            document.getElementById('c4-badge').innerText = dict.c4Badge;
+            document.getElementById('c4-title').innerText = dict.c4Title;
+            document.getElementById('c4-desc').innerText = dict.c4Desc;
+            document.getElementById('lbl-bep-tfc').innerText = dict.c4Tfc;
+            document.getElementById('lbl-bep-price').innerText = dict.c4Price;
+            document.getElementById('lbl-bep-vcu').innerText = dict.c4Vcu;
+            document.getElementById('lbl-bep-q').innerText = dict.c4Q;
+            document.getElementById('c4-exp-lbl').innerText = dict.c4ExpTitle;
+            document.getElementById('c4-expander-body').innerHTML = dict.c4ExpBody;
+            document.getElementById('btnClaimBadge').innerText = dict.c4Claim;
+
+            // Cert Modal
+            document.getElementById('certHeadline').innerText = dict.certHeadline;
+            document.getElementById('certStatement').innerText = dict.certStatement;
+            document.getElementById('lbl-cert-name').innerText = dict.certInput;
+            document.getElementById('certSignTitle').innerText = dict.certSignTitle;
+            document.getElementById('btnCloseModal').innerText = dict.btnClose;
+
+            // CRITICAL FIX: Trigger MathJax Typesetting recursively to compile dynamic LaTeX formulas on translation changes
+            if (window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+                window.MathJax.typesetPromise();
+            }
+        }
+
+        /************************************************************************
+         * 10. NOTIFICATION FEEDBACKS & MODALS
+         ************************************************************************/
+        function showToast(msg) {
+            const toast = document.getElementById('toastMessage');
+            toast.innerText = msg;
+            toast.classList.add('active');
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        function showBadgeModal() {
+            document.getElementById('badgeModal').classList.add('active');
+        }
+
+        function hideBadgeModal() {
+            document.getElementById('badgeModal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
